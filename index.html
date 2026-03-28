@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Recorder</title>
+    <!-- Modern Typography: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="background-blobs">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+    </div>
+
+    <main class="app-container">
+        <header>
+            <h1>Voice Recorder</h1>
+            <p>Capture your thoughts securely in your browser</p>
+        </header>
+
+        <section class="recorder-section">
+            <div class="mic-container" id="micContainer">
+                <button id="recordBtn" class="record-btn" aria-label="Start Recording">
+                    <i class="fa-solid fa-microphone"></i>
+                </button>
+                <div class="recording-rings"></div>
+            </div>
+            
+            <div class="status-panel">
+                <p id="statusText">Ready to Record</p>
+                <p class="timer" id="timerDisplay">00:00</p>
+            </div>
+        </section>
+
+        <section class="playback-section hidden" id="playbackSection">
+            <audio id="audioPlayback" controls></audio>
+            <div class="action-buttons">
+                <button id="downloadBtn" class="btn primary-btn">
+                    <i class="fa-solid fa-download"></i> Save Audio
+                </button>
+                <button id="discardBtn" class="btn secondary-btn">
+                    <i class="fa-solid fa-trash"></i> Discard
+                </button>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

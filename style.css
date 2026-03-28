@@ -1,0 +1,295 @@
+:root {
+    --bg-color: #0d0f1a;
+    --glass-bg: rgba(255, 255, 255, 0.05);
+    --glass-border: rgba(255, 255, 255, 0.1);
+    --text-primary: #f8f9ff;
+    --text-secondary: #a0a8cc;
+    --accent-red: #ff3b30;
+    --accent-blue: #0A84FF;
+    --accent-purple: #bf5af2;
+    --shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Background Animated Blobs */
+.background-blobs {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.blob {
+    position: absolute;
+    filter: blur(80px);
+    border-radius: 50%;
+    opacity: 0.5;
+    animation: float 20s infinite ease-in-out alternate;
+}
+
+.blob-1 {
+    width: 400px;
+    height: 400px;
+    background: var(--accent-blue);
+    top: -100px;
+    left: -100px;
+}
+
+.blob-2 {
+    width: 500px;
+    height: 500px;
+    background: var(--accent-purple);
+    bottom: -150px;
+    right: -100px;
+    animation-delay: -5s;
+}
+
+@keyframes float {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(100px, 50px) scale(1.2); }
+}
+
+/* Main App Container (Glassmorphism) */
+.app-container {
+    position: relative;
+    z-index: 1;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border-radius: 24px;
+    padding: 3rem;
+    width: 90%;
+    max-width: 480px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+/* Header */
+header h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(90deg, #f8f9ff, #a0a8cc);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+header p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+/* Recorder Section */
+.recorder-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    gap: 1.5rem;
+}
+
+/* Mic Button Design */
+.mic-container {
+    position: relative;
+    width: 140px;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.record-btn {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: none;
+    background: var(--accent-red);
+    color: white;
+    font-size: 2.5rem;
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 4px 20px rgba(255, 59, 48, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.record-btn:hover {
+    transform: scale(1.05);
+    background: #ff5046;
+}
+
+.record-btn:active {
+    transform: scale(0.95);
+}
+
+.record-btn.recording {
+    background: #ff2d55;
+    animation: pulseMic 1.5s infinite alternate;
+}
+
+.record-btn.recording i {
+    /* Change icon to stop */
+    content: "\f04d"; /* fa-stop */
+}
+
+@keyframes pulseMic {
+    0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(255, 59, 48, 0.7); }
+    100% { transform: scale(1.1); box-shadow: 0 0 0 20px rgba(255, 59, 48, 0); }
+}
+
+/* Radar rings effect while recording */
+.recording-rings {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    border: 2px solid var(--accent-red);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.recording .recording-rings {
+    animation: ripple 1.5s linear infinite;
+}
+
+@keyframes ripple {
+    0% { transform: scale(0.8); opacity: 1; }
+    100% { transform: scale(1.5); opacity: 0; }
+}
+
+/* Status text and timer */
+.status-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+#statusText {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    transition: color 0.3s ease;
+}
+
+.recording-status {
+    color: var(--accent-red) !important;
+}
+
+.timer {
+    font-variant-numeric: tabular-nums;
+    font-size: 2.5rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+/* Playback Section */
+.playback-section {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.playback-section.hidden {
+    display: none;
+}
+
+audio {
+    width: 100%;
+    height: 40px;
+    border-radius: 8px;
+    outline: none;
+}
+
+/* Custom Webkit Audio Player styles (as much as standard allows) */
+audio::-webkit-media-controls-panel {
+    background-color: var(--text-primary);
+}
+
+.action-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 12px;
+    border: none;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.2s ease;
+}
+
+.primary-btn {
+    background: var(--accent-blue);
+    color: white;
+    box-shadow: 0 4px 15px rgba(10, 132, 255, 0.3);
+}
+
+.primary-btn:hover {
+    background: #2a94ff;
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    background: rgba(255,255,255,0.1);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+}
+
+.secondary-btn:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+    .app-container {
+        padding: 2rem 1.5rem;
+    }
+    .action-buttons {
+        flex-direction: column;
+    }
+    .timer {
+        font-size: 2rem;
+    }
+}
